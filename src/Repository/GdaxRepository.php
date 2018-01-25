@@ -25,4 +25,12 @@ class GdaxRepository
     {
         return $this->gdaxExchange->request('GET', '/orders');
     }
+
+    public function getFills(string $filterBeforeTradeId = ''): Response
+    {
+        return $this->gdaxExchange->request(
+            'GET',
+            sprintf('/fills?before=%s', $filterBeforeTradeId)
+        );
+    }
 }

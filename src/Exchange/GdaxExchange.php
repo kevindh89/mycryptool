@@ -26,7 +26,7 @@ class GdaxExchange
         $this->client = new Client();
     }
 
-    public function request(string $method, string $requestPath, string $body = ''): Response
+    public function request(string $method, string $requestPath, array $headers = [], string $body = ''): Response
     {
         $timestamp = time();
 
@@ -34,12 +34,15 @@ class GdaxExchange
             $method,
             self::API_BASE_URI . $requestPath,
             [
-                'headers' => [
-                    'CB-ACCESS-KEY' => $this->key,
-                    'CB-ACCESS-SIGN' => $this->signature($method, $requestPath, $timestamp, $body),
-                    'CB-ACCESS-TIMESTAMP' => $timestamp,
-                    'CB-ACCESS-PASSPHRASE' => $this->passphrase
-                ]
+                'headers' => array_merge(
+                    $headers,
+                    [
+                        'CB-ACCESS-KEY' => $this->key,
+                        'CB-ACCESS-SIGN' => $this->signature($method, $requestPath, $timestamp, $body),
+                        'CB-ACCESS-TIMESTAMP' => $timestamp,
+                        'CB-ACCESS-PASSPHRASE' => $this->passphrase
+                    ]
+                )
                 // TODO: Implement body somewhere (POST parameters)
             ]
         );
