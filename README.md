@@ -7,8 +7,31 @@ Start containers with docker-compose:
 docker-compose up -d --build
 ```
 
-The MyCryptool webapplication will be locally available.
+The MyCryptool application is now available at [http://192.168.99.100:8080](http://192.168.99.100:8080).
 
-*Rates*: http://192.168.99.100:8080/api/rates
+### Connect to GDAX
 
-*Orders*: http://192.168.99.100:8080/api/orders
+Connect __MyCryptool__ to your __GDAX__ account using API credentials (``access token``, ``secret`` and ``passphrase``).
+These can be obtained in the [GDAX API settings](https://www.gdax.com/settings/api) page.
+
+Update the ``.env`` file in the project root directory with the API credentials:
+
+```
+GDAX_API_KEY=''
+GDAX_SECRET=''
+GDAX_PASSPHRASE=''
+```
+
+Now restart the docker containers to update the changed environment variables:
+
+```
+docker-compose restart
+```
+
+## Working endpoints
+
+After configuring the API credentials, these endpoints should give valid json responses:
+
+_Rates_: http://192.168.99.100:8080/api/rates
+
+_Orders_: http://192.168.99.100:8080/api/orders
