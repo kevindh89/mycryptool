@@ -8,17 +8,18 @@ namespace App\Controller;
 use App\Factory\TradeFactory;
 use App\Repository\GdaxRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FrontendController
+class FrontendController extends Controller
 {
     /**
      * @Route("/", name="home")
      */
     public function home(): Response
     {
-        return new Response('MyCryptool is working!');
+        return $this->render('frontend/home.html.twig');
     }
 
     /**
