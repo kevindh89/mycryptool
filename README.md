@@ -14,7 +14,7 @@ Add this line to your ``/etc/hosts`` file:
 
 __MyCryptool__ should now be available on [http://mycryptool.test](http://mycryptool.test) and show "MyCryptool is working!".
 
-### Connect to GDAX
+## Connect to GDAX
 
 Connect __MyCryptool__ to your __GDAX__ account using API credentials (``access token``, ``secret`` and ``passphrase``).
 These can be obtained in the [GDAX API settings](https://www.gdax.com/settings/api) page.
@@ -33,7 +33,7 @@ Now restart the docker containers to update the changed environment variables:
 docker-compose restart
 ```
 
-## Working endpoints
+### Working endpoints
 
 After configuring the API credentials, these endpoints should give valid json responses:
 
