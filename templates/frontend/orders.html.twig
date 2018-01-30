@@ -2,8 +2,8 @@
 
 {% block body %}
     <div class="alert my-2" role="alert">
-        The list of closed orders is not real-time synced with GDAX.
-        <a href="{{ url('api_collect_trades') }}" target="_blank" class="btn btn-dark mx-2">Collect latest closed orders</a>
+        The list of open orders is not real-time synced with GDAX.
+        <a href="{{ url('api_collect_orders') }}" target="_blank" class="btn btn-dark mx-2">Collect latest open orders</a>
     </div>
 
     <table class="table table-striped table-dark">
@@ -16,12 +16,12 @@
         </tr>
         </thead>
         <tbody>
-        {% for trade in trades %}
+        {% for order in orders %}
             <tr>
-                <td>{{ trade.productId }}</td>
-                <td>{{ trade.size }}</td>
-                <td>{{ trade.price }}</td>
-                <td>{{ trade.tradeCreatedAt | date('d-m-Y H:i:s') }}</td>
+                <td>{{ order.productId }}</td>
+                <td>{{ order.size }}</td>
+                <td>{{ order.price }}</td>
+                <td>{{ order.orderCreatedAt | date('d-m-Y H:i:s') }}</td>
             </tr>
         {% endfor %}
         </tbody>

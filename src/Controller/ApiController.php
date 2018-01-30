@@ -62,4 +62,14 @@ class ApiController
 
         return new Response(sprintf('Stored %s trades', $syncedTradeCount));
     }
+
+    /**
+     * @Route("/refresh-orders", name="collect_orders")
+     */
+    public function refreshOrders(GdaxApiSyncService $syncService): Response
+    {
+        $syncedOrdersCount = $syncService->refreshOrders();
+
+        return new Response(sprintf('Stored %s orders', $syncedOrdersCount));
+    }
 }

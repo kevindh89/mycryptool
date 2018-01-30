@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\OrderRepository;
 use App\Repository\TradeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,12 +23,24 @@ class FrontendController extends Controller
     /**
      * @Route("/trades", name="trades")
      */
-    public function trades(TradeRepository $tradeRepository)
+    public function trades(TradeRepository $repository)
     {
-        $trades = $tradeRepository->findBy([], ['tradeCreatedAt' => 'DESC']);
+        $trades = $repository->findBy([], ['tradeCreatedAt' => 'DESC']);
 
         return $this->render('frontend/trades.html.twig', [
             'trades' => $trades
+        ]);
+    }
+    
+    /**
+     * @Route("/orders", name="orders")
+     */
+    public function orders(OrderRepository $repository)
+    {
+        $orders = $repository->findBy([], ['orderCreatedAt' => 'DESC']);
+
+        return $this->render('frontend/orders.html.twig', [
+            'orders' => $orders
         ]);
     }
 }
