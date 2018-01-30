@@ -1,0 +1,10 @@
+{
+  "name": "MyCryptool",
+  "description": "Helpful tool for cryptocurrency trading",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Kevin de Heer",
+  "dependencies": {
+    "bootstrap": "^4.0.0"
+  }
+}
