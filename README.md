@@ -47,3 +47,8 @@ After configuring the API credentials, these endpoints should give valid json re
 _Rates_: http://mycryptool.test/api/rates
 
 _Orders_: http://mycryptool.test/api/orders
+
+
+## Copyright and license
+
+Code released under the [MIT License](https://github.com/kevindh89/mycryptool/blob/master/LICENSE).
