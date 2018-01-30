@@ -6,4 +6,8 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+# npm modules
 node_modules/
+
+# webpack build files
+public/build/
