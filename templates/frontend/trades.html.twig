@@ -1,12 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="alert my-2" role="alert">
+        The list of trades is not real-time synced with Gdax.
+        <a href="{{ url('api_collect_trades') }}" target="_blank" class="btn btn-dark mx-2">Collect latest trades</a>
+    </div>
+
     <table class="table table-striped table-dark">
         <thead>
         <tr>
             <th scope="col">Product</th>
             <th scope="col">Size</th>
             <th scope="col">Price</th>
+            <th scope="col">Date</th>
         </tr>
         </thead>
         <tbody>
@@ -15,6 +21,7 @@
                 <td>{{ trade.productId }}</td>
                 <td>{{ trade.size }}</td>
                 <td>{{ trade.price }}</td>
+                <td>{{ trade.tradeCreatedAt | date('d-m-Y H:i:s') }}</td>
             </tr>
         {% endfor %}
         </tbody>

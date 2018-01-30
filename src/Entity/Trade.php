@@ -17,9 +17,9 @@ class Trade
     private $tradeId;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private $tradeCreatedAt;
 
     /**
      * @ORM\Column(type="string", length=20)
@@ -86,7 +86,7 @@ class Trade
         bool $settled
     ) {
         $this->tradeId =    $tradeId;
-        $this->createdAt =  $createdAt;
+        $this->tradeCreatedAt =  $createdAt;
         $this->productId =  $productId;
         $this->orderId =    $orderId;
         $this->userId =     $userId;
@@ -109,14 +109,14 @@ class Trade
         $this->tradeId = $tradeId;
     }
 
-    public function getCreatedAt(): DateTime
+    public function getTradeCreatedAt(): DateTime
     {
-        return $this->createdAt;
+        return $this->tradeCreatedAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt)
+    public function setTradeCreatedAt(DateTime $tradeCreatedAt)
     {
-        $this->createdAt = $createdAt;
+        $this->tradeCreatedAt = $tradeCreatedAt;
     }
 
     public function getProductId(): string
