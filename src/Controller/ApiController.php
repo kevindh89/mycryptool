@@ -28,11 +28,15 @@ class ApiController
     }
 
     /**
-     * @Route("/orders", name="orders")
+     * @Route("/trades", name="orders")
      */
-    public function orders(Request $request, GdaxRepository $gdaxRepository): Response
+    public function trades(Request $request, GdaxRepository $gdaxRepository): Response
     {
-        $response = $gdaxRepository->getFills($request->query->get('cb-before', ''))->getBody()->getContents();
+        $response = $gdaxRepository
+            ->getFills($request->query->get('cb-before', ''))
+            ->getBody()
+            ->getContents();
+
 //        $lastTradeId = $gdaxRepository->getFills()->getHeader('CB-BEFORE')[0];
 
         return new Response(

@@ -8,7 +8,31 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">
+                    MyCryptool
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('home') }}">Welcome</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('trades') }}">Trades</a>
+                        </li>
+                    </ul>
+                    <span class="navbar-text">
+                        Happy Crypto trading!
+                    </span>
+                </div>
+            </nav>
+
+            {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}
             <script type="text/javascript" href="{{ asset('build/app.js') }}"></script>
         {% endblock %}

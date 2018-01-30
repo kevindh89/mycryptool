@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Size</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for trade in trades %}
+            <tr>
+                <td>{{ trade.productId }}</td>
+                <td>{{ trade.size }}</td>
+                <td>{{ trade.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Factory\TradeFactory;
 use App\Repository\GdaxRepository;
+use App\Repository\TradeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,18 @@ class FrontendController extends Controller
     public function home(): Response
     {
         return $this->render('frontend/home.html.twig');
+    }
+
+    /**
+     * @Route("/trades", name="trades")
+     */
+    public function trades(TradeRepository $tradeRepository)
+    {
+        $trades = $tradeRepository->findAll();
+
+        return $this->render('frontend/trades.html.twig', [
+            'trades' => $trades
+        ]);
     }
 
     /**
