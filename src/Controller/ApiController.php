@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Factory\TradeFactory;
-use App\Repository\GdaxRepository;
-use App\Repository\TradeRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Exchange\Gdax\Client;
+use App\Sync\GdaxApiSyncService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,54 +18,48 @@ class ApiController
     /**
      * @Route("/rates", name="rates")
      */
-    public function rates(GdaxRepository $gdaxRepository): Response
+    public function rates(Client $client): Response
     {
-        $response = $gdaxRepository->getRate('ETH-EUR')->getBody()->getContents();
+        $rates = $client->getRate('ETH-EUR');
         return new Response(
-            '<pre>'. json_encode(json_decode($response), JSON_PRETTY_PRINT) .'</pre>'
+            '<pre>'. json_encode($rates, JSON_PRETTY_PRINT) .'</pre>'
         );
     }
 
     /**
-     * @Route("/trades", name="orders")
+     * @Route("/trades", name="trades")
      */
-    public function trades(Request $request, GdaxRepository $gdaxRepository): Response
+    public function trades(Request $request, Client $client): Response
     {
-        $response = $gdaxRepository
-            ->getFills($request->query->get('cb-before', ''))
-            ->getBody()
-            ->getContents();
-
-//        $lastTradeId = $gdaxRepository->getFills()->getHeader('CB-BEFORE')[0];
+        $lastTradeId = $request->query->get('cb-before', null);
+        $trades = $lastTradeId !== null ?
+            $client->getTradesBefore($lastTradeId) :
+            $client->getTrades();
 
         return new Response(
-            '<pre>'. json_encode(json_decode($response), JSON_PRETTY_PRINT) .'</pre>'
+            '<pre>'. json_encode($trades, JSON_PRETTY_PRINT) .'</pre>'
+        );
+    }
+
+    /**
+     * @Route("/orders", name="orders")
+     */
+    public function orders(Client $gdaxRepository): Response
+    {
+        $orders = $gdaxRepository->getOrders();
+
+        return new Response(
+            '<pre>'. json_encode($orders, JSON_PRETTY_PRINT) .'</pre>'
         );
     }
 
     /**
      * @Route("/collect-trades", name="collect_trades")
      */
-    public function collectTrades(
-        GdaxRepository $gdaxRepository,
-        TradeRepository $tradeRepository,
-        EntityManagerInterface $entityManager
-    ): Response {
-        $lastTrade = $tradeRepository->findOneBy([], ['tradeId' => 'DESC']);
-        $response = $lastTrade !== null ?
-            $gdaxRepository->getFillsBefore($lastTrade->getTradeId()) :
-            $gdaxRepository->getFills();
-        $tradesResponse = json_decode($response->getBody()->getContents(), true);
+    public function collectTrades(GdaxApiSyncService $syncService): Response
+    {
+        $syncedTradeCount = $syncService->fetchTrades();
 
-        $trades = [];
-        foreach ($tradesResponse as $singleTradeInResponse) {
-            $trade = TradeFactory::fromApiResponse($singleTradeInResponse);
-            $trades[] = $trade;
-            $entityManager->persist($trade);
-        }
-
-        $entityManager->flush();
-
-        return new Response(sprintf('Stored %s trades', count($trades)));
+        return new Response(sprintf('Stored %s trades', $syncedTradeCount));
     }
 }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Exchange;
+namespace App\Exchange\Gdax;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 
-class GdaxExchange
+class RequestBuilder
 {
     const API_BASE_URI = 'https://api.gdax.com';
 

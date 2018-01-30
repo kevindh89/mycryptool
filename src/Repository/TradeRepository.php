@@ -13,16 +13,10 @@ class TradeRepository extends ServiceEntityRepository
         parent::__construct($registry, Trade::class);
     }
 
-    /*
-    public function findBySomething($value)
+    public function getLastTradeId(): ?int
     {
-        return $this->createQueryBuilder('t')
-            ->where('t.something = :value')->setParameter('value', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $lastTrade = $this->findOneBy([], ['tradeId' => 'DESC']);
+
+        return $lastTrade !== null ? $lastTrade->getTradeId() : null;
     }
-    */
 }
