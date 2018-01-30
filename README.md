@@ -14,6 +14,16 @@ Run database migrations to create the database:
 php bin/console doctrine:migrations:migrate
 ```
 
+Install frontend package dependencies:
+```
+npm install
+```
+
+Compile css and js files with webpack:
+```
+./node_modules/.bin/encore dev
+```
+
 Add this line to your ``/etc/hosts`` file:
 ```
 192.168.99.100 mycryptool.test
