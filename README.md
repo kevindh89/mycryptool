@@ -1,5 +1,7 @@
 # MyCryptool
 
+To run this project locally you need to have [docker-compose](https://docs.docker.com/compose/install/) installed.
+
 ## Setup
 
 Start containers with docker-compose:
