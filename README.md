@@ -17,7 +17,7 @@ __MyCryptool__ should now be available on [http://mycryptool.test](http://mycryp
 ## Connect to GDAX
 
 Connect __MyCryptool__ to your __GDAX__ account using API credentials (``access token``, ``secret`` and ``passphrase``).
-These can be obtained in the [GDAX API settings](https://www.gdax.com/settings/api) page.
+These can be obtained from the [GDAX API settings](https://www.gdax.com/settings/api) page.
 
 Update the ``.env`` file in the project root directory with the API credentials:
 
