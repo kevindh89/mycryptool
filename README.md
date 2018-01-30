@@ -12,7 +12,7 @@ Add this line to your ``/etc/hosts`` file:
 192.168.99.100 mycryptool.test
 ```
 
-__MyCryptool__ should now be available on [http://mycryptool.test](http://mycryptool.test) and show "MyCryptool is working!".
+__MyCryptool__ should now be available on http://mycryptool.test and show "MyCryptool is working!".
 
 ## Connect to GDAX
 
@@ -37,6 +37,6 @@ docker-compose restart
 
 After configuring the API credentials, these endpoints should give valid json responses:
 
-_Rates_: http://192.168.99.100:8080/api/rates
+_Rates_: http://mycryptool.test/api/rates
 
-_Orders_: http://192.168.99.100:8080/api/orders
+_Orders_: http://mycryptool.test/api/orders
