@@ -7,6 +7,11 @@ Start containers with docker-compose:
 docker-compose up -d --build
 ```
 
+Run database migrations to create the database:
+```
+php bin/console doctrine:migrations:migrate
+```
+
 Add this line to your ``/etc/hosts`` file:
 ```
 192.168.99.100 mycryptool.test
