@@ -1,19 +1,16 @@
-FROM ubuntu:latest
+FROM php:7.1-fpm
 
-RUN apt-get update && apt-get install -y software-properties-common language-pack-en-base \
-    && LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php \
-    && apt-get update \
-    && apt-get install -y php7.1 php7.1-fpm php7.1-mysql mcrypt php7.1-gd curl \
-       php7.1-curl php-redis php7.1-mbstring sendmail supervisor \
-    && mkdir /run/php \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng12-dev \
+    	&& docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include \
+    	&& docker-php-ext-install gd
 
-RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer \
-	&& chmod +sx /usr/local/bin/composer
+COPY symfony.pool.conf  /usr/local/etc/
 
-RUN sed -i -e 's/listen = \/run\/php\/php7.1-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/7.1/fpm/pool.d/www.conf \
-    && sed -i -e 's/;daemonize = yes/daemonize = no/g' /etc/php/7.1/fpm/php-fpm.conf
-
-WORKDIR /var/www/
+RUN usermod -u 1000 www-data
 
 EXPOSE 9000
+CMD ["php-fpm", "-F"]

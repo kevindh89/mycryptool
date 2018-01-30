@@ -7,7 +7,12 @@ Start containers with docker-compose:
 docker-compose up -d --build
 ```
 
-The MyCryptool application is now available at [http://192.168.99.100:8080](http://192.168.99.100:8080).
+Add this line to your ``/etc/hosts`` file:
+```
+192.168.99.100 mycryptool.test
+```
+
+__MyCryptool__ should now be available on [http://mycryptool.test](http://mycryptool.test) and show "MyCryptool is working!".
 
 ### Connect to GDAX
 

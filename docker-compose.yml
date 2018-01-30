@@ -1,18 +1,18 @@
 version: '2'
 
 services:
-    nginx:
-        build:
-            context: ./docker/nginx
+    php-fpm:
+        build: ./docker/php-fpm
         ports:
-            - 8080:80
+            - 9000:9000
+        volumes:
+            - ./:/var/www/mycryptool
+
+    nginx:
+        build: ./docker/nginx
+        ports:
+            - 80:80
         volumes:
             - ./:/var/www/mycryptool
         links:
             - php-fpm
-
-    php-fpm:
-        build:
-            context: ./docker/php-fpm
-        volumes:
-            - ./:/var/www/mycryptool

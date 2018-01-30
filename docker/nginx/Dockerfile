@@ -1,7 +1,21 @@
-FROM nginx
+FROM debian:jessie
 
-ADD ./default.conf /etc/nginx/conf.d/
+RUN apt-get update && \
+    apt-get install -y nginx && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/
+COPY app.conf /etc/nginx/sites-available/
 
-CMD service nginx start
+RUN ln -s /etc/nginx/sites-available/app.conf /etc/nginx/sites-enabled/app
+RUN rm /etc/nginx/sites-enabled/default
+
+RUN echo "upstream php-upstream { server php-fpm:9000; }" > /etc/nginx/conf.d/upstream.conf
+
+RUN usermod -u 1000 www-data
+
+CMD ["nginx"]
+
+EXPOSE 80
+EXPOSE 443
