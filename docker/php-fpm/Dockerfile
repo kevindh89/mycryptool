@@ -2,7 +2,7 @@ FROM php:7.1-fpm
 
 RUN apt-get update && \
         apt-get install -y software-properties-common python-software-properties && \
-        add-apt-repository -y -u ppa:ondrej/php && \
+        add-apt-repository -y ppa:ondrej/php && \
         apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
