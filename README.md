@@ -6,24 +6,9 @@ To run this project locally you need to have [docker-compose](https://docs.docke
 
 ## Setup
 
-Start containers with docker-compose:
+Run setup script:
 ```
-docker-compose up -d --build
-```
-
-Run database migrations to create the database:
-```
-php bin/console doctrine:migrations:migrate
-```
-
-Install frontend package dependencies:
-```
-npm install
-```
-
-Compile css and js files with webpack:
-```
-./node_modules/.bin/encore dev
+./setup.sh
 ```
 
 Add this line to your ``/etc/hosts`` file:
