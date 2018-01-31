@@ -7,7 +7,7 @@ eval $(docker-machine env)
 # Copy .env.dist to .env if it doesn't already exist
 cp -n .env.dist .env
 
-docker-compose up -d --build
+docker-compose --project-name mycryptool up -d --build
 
 # Run composer install
 docker run -it -v "$PWD":/var/www/mycryptool mycryptool_php-fpm bash -ci "cd /var/www/mycryptool && /usr/local/bin/composer install"
