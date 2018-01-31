@@ -58,6 +58,13 @@ _Rates_: http://mycryptool.test/api/rates
 
 _Orders_: http://mycryptool.test/api/orders
 
+## Testing
+
+Run unit tests:
+```
+vendor/bin/phpunit
+```
+
 
 ## Copyright and license
 
