@@ -1,5 +1,7 @@
 # MyCryptool
 
+[![Build Status](https://travis-ci.org/kevindh89/mycryptool.svg?branch=master)](https://travis-ci.org/kevindh89/mycryptool)
+
 To run this project locally you need to have [docker-compose](https://docs.docker.com/compose/install/) installed.
 
 ## Setup
