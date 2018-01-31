@@ -173,7 +173,7 @@ class Trade
 
     public function getPrice(): float
     {
-        return $this->price;
+        return (float) $this->price;
     }
 
     public function setPrice(float $price)
@@ -183,7 +183,7 @@ class Trade
 
     public function getSize(): float
     {
-        return $this->size;
+        return (float) $this->size;
     }
 
     public function setSize(float $size)
@@ -193,7 +193,7 @@ class Trade
 
     public function getFee(): float
     {
-        return $this->fee;
+        return (float) $this->fee;
     }
 
     public function setFee(float $fee)

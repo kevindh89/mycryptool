@@ -148,7 +148,7 @@ class Order
 
     public function getPrice(): float
     {
-        return $this->price;
+        return (float) $this->price;
     }
 
     public function setPrice(float $price): void
@@ -158,7 +158,7 @@ class Order
 
     public function getSize(): float
     {
-        return $this->size;
+        return (float) $this->size;
     }
 
     public function setSize(float $size): void
@@ -188,7 +188,7 @@ class Order
 
     public function getFillFees(): float
     {
-        return $this->fillFees;
+        return (float) $this->fillFees;
     }
 
     public function setFillFees(float $fillFees): void
@@ -228,7 +228,7 @@ class Order
 
     public function getFilledSize(): float
     {
-        return $this->filledSize;
+        return (float) $this->filledSize;
     }
 
     public function setFilledSize(float $filledSize): void
@@ -238,7 +238,7 @@ class Order
 
     public function getExecutedValue(): float
     {
-        return $this->executedValue;
+        return (float) $this->executedValue;
     }
 
     public function setExecutedValue(float $executedValue): void
