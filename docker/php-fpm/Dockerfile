@@ -1,12 +1,12 @@
 FROM php:7.1-fpm
 
-RUN add-apt-repository ppa:ondrej/php && apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
         curl \
-        git zip unzip php7.1-zip \
+        git zip unzip \
     	&& docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include \
     	&& docker-php-ext-install gd \
     	&& docker-php-ext-install pdo_mysql
