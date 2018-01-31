@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use DateTime;
@@ -85,18 +87,18 @@ class Trade
         string $side,
         bool $settled
     ) {
-        $this->tradeId =    $tradeId;
-        $this->tradeCreatedAt =  $createdAt;
-        $this->productId =  $productId;
-        $this->orderId =    $orderId;
-        $this->userId =     $userId;
-        $this->profileId =  $profileId;
-        $this->liquidity =  $liquidity;
-        $this->price =      $price;
-        $this->size =       $size;
-        $this->fee =        $fee;
-        $this->side =       $side;
-        $this->settled =    $settled;
+        $this->tradeId = $tradeId;
+        $this->tradeCreatedAt = $createdAt;
+        $this->productId = $productId;
+        $this->orderId = $orderId;
+        $this->userId = $userId;
+        $this->profileId = $profileId;
+        $this->liquidity = $liquidity;
+        $this->price = $price;
+        $this->size = $size;
+        $this->fee = $fee;
+        $this->side = $side;
+        $this->settled = $settled;
     }
 
     public function getTradeId(): int

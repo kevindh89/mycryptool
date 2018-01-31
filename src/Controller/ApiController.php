@@ -21,8 +21,9 @@ class ApiController
     public function rates(Client $client): Response
     {
         $rates = $client->getRate('ETH-EUR');
+
         return new Response(
-            '<pre>'. json_encode($rates, JSON_PRETTY_PRINT) .'</pre>'
+            '<pre>' . json_encode($rates, JSON_PRETTY_PRINT) . '</pre>'
         );
     }
 
@@ -37,7 +38,7 @@ class ApiController
             $client->getTrades();
 
         return new Response(
-            '<pre>'. json_encode($trades, JSON_PRETTY_PRINT) .'</pre>'
+            '<pre>' . json_encode($trades, JSON_PRETTY_PRINT) . '</pre>'
         );
     }
 
@@ -49,7 +50,7 @@ class ApiController
         $orders = $gdaxRepository->getOrders();
 
         return new Response(
-            '<pre>'. json_encode($orders, JSON_PRETTY_PRINT) .'</pre>'
+            '<pre>' . json_encode($orders, JSON_PRETTY_PRINT) . '</pre>'
         );
     }
 

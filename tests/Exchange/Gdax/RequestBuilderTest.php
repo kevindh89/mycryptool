@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Override time() in current namespace for testing
+ * Override time() in current namespace for testing.
  *
  * @return int
  */
@@ -19,15 +19,14 @@ function time()
 
 class RequestBuilderTest extends TestCase
 {
+    const SECRET = 'secret';
+    const KEY = 'key';
+    const PASSPHRASE = 'passphrase';
     public static $now;
 
     private $client;
     private $requestBuilder;
     private $requestSigner;
-
-    const SECRET = 'secret';
-    const KEY = 'key';
-    const PASSPHRASE = 'passphrase';
 
     protected function setUp()
     {
@@ -64,9 +63,9 @@ class RequestBuilderTest extends TestCase
             ->method('request')
             ->with(
                 'GET',
-                RequestBuilder::API_BASE_URI .'/orders',
+                RequestBuilder::API_BASE_URI . '/orders',
                 [
-                    'headers' => $this->getDefaultHeaders()
+                    'headers' => $this->getDefaultHeaders(),
                 ]
             )
             ->willReturn($this->validJsonResponse());
@@ -75,7 +74,7 @@ class RequestBuilderTest extends TestCase
             ->with(self::SECRET, 'GET', '/orders', self::$now, '')
             ->willReturn('signature');
 
-        $this->assertEquals(
+        $this->assertSame(
             ['test' => 1],
             $this->requestBuilder->request('GET', '/orders', [], '')
         );
@@ -87,7 +86,7 @@ class RequestBuilderTest extends TestCase
             'CB-ACCESS-KEY' => self::KEY,
             'CB-ACCESS-SIGN' => 'signature',
             'CB-ACCESS-TIMESTAMP' => self::$now,
-            'CB-ACCESS-PASSPHRASE' => self::PASSPHRASE
+            'CB-ACCESS-PASSPHRASE' => self::PASSPHRASE,
         ];
     }
 

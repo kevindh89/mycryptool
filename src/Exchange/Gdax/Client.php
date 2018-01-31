@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Exchange\Gdax;
 
-use App\Exchange\GdaxExchange;
-use GuzzleHttp\Psr7\Response;
-
 class Client
 {
     private $requestBuilder;

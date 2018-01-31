@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use DateTime;
@@ -82,7 +84,6 @@ class Order
      */
     private $status;
 
-
     public function __construct(
         string $orderId,
         DateTime $createdAt,
@@ -99,20 +100,20 @@ class Order
         float $executedValue,
         string $status
     ) {
-        $this->orderId =        $orderId;
+        $this->orderId = $orderId;
         $this->orderCreatedAt = $createdAt;
-        $this->productId =      $productId;
-        $this->price =          $price;
-        $this->size =           $size;
-        $this->side =           $side;
-        $this->settled =        $settled;
-        $this->fillFees =       $fillFees;
-        $this->stp =            $stp;
-        $this->type =           $type;
-        $this->timeInForce =    $timeInForce;
-        $this->filledSize =     $filledSize;
-        $this->executedValue =  $executedValue;
-        $this->status =         $status;
+        $this->productId = $productId;
+        $this->price = $price;
+        $this->size = $size;
+        $this->side = $side;
+        $this->settled = $settled;
+        $this->fillFees = $fillFees;
+        $this->stp = $stp;
+        $this->type = $type;
+        $this->timeInForce = $timeInForce;
+        $this->filledSize = $filledSize;
+        $this->executedValue = $executedValue;
+        $this->status = $status;
     }
 
     public function getOrderId(): string

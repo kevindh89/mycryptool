@@ -28,10 +28,10 @@ class FrontendController extends Controller
         $trades = $repository->findBy([], ['tradeCreatedAt' => 'DESC']);
 
         return $this->render('frontend/trades.html.twig', [
-            'trades' => $trades
+            'trades' => $trades,
         ]);
     }
-    
+
     /**
      * @Route("/orders", name="orders")
      */
@@ -40,7 +40,7 @@ class FrontendController extends Controller
         $orders = $repository->findBy([], ['orderCreatedAt' => 'DESC']);
 
         return $this->render('frontend/orders.html.twig', [
-            'orders' => $orders
+            'orders' => $orders,
         ]);
     }
 }

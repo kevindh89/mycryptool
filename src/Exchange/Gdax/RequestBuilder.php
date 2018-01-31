@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Exchange\Gdax;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 
 class RequestBuilder
 {
@@ -43,9 +42,9 @@ class RequestBuilder
                             'CB-ACCESS-KEY' => $this->key,
                             'CB-ACCESS-SIGN' => $this->requestSigner->sign($this->secret, $method, $requestPath, $timestamp, $body),
                             'CB-ACCESS-TIMESTAMP' => $timestamp,
-                            'CB-ACCESS-PASSPHRASE' => $this->passphrase
+                            'CB-ACCESS-PASSPHRASE' => $this->passphrase,
                         ]
-                    )
+                    ),
                     // TODO: Implement body somewhere (POST parameters)
                 ]
             )
