@@ -1,12 +1,15 @@
 FROM php:7.1-fpm
 
+RUN apt-get clean && apt-get -y update && apt-get install -y locales curl software-properties-common git \
+  && locale-gen en_US.UTF-8
+RUN LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
         curl \
-        git zip unzip php-zip \
+        git zip unzip php7.1-zip \
     	&& docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include \
     	&& docker-php-ext-install gd \
     	&& docker-php-ext-install pdo_mysql
