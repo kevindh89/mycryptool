@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Repository\OrderRepository;
 use App\Repository\TradeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,7 +18,9 @@ class FrontendController extends Controller
      */
     public function home(): Response
     {
-        return $this->render('frontend/home.html.twig');
+        return $this->render('frontend/home.html.twig', [
+            'meme' => $this->getRandomMeme(),
+        ]);
     }
 
     /**
@@ -42,5 +45,18 @@ class FrontendController extends Controller
         return $this->render('frontend/orders.html.twig', [
             'orders' => $orders,
         ]);
+    }
+
+    private function getRandomMeme(): string
+    {
+        $memes = new Finder();
+        $memes->files()->in(__DIR__ . '/../../public/images/memes/');
+
+        $files = [];
+        foreach ($memes as $meme) {
+            $files[] = $meme->getRelativePathname();
+        }
+
+        return $files[array_rand($files)];
     }
 }
