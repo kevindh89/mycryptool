@@ -15,7 +15,7 @@
                 </a>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ app.session.get('product', 'BTC-EUR') }}
+                        {{ app.session.get('activeProduct', 'BTC-EUR') }}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="{{ url('dashboard', { 'product': 'BTC-EUR' }) }}">BTC/EUR</a>
