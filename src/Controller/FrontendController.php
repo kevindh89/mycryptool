@@ -34,13 +34,9 @@ class FrontendController extends Controller
     /**
      * @Route("/orders", name="orders")
      */
-    public function orders(OrderRepository $repository)
+    public function orders()
     {
-        $orders = $repository->findBy([], ['orderCreatedAt' => 'DESC']);
-
-        return $this->render('frontend/orders.html.twig', [
-            'orders' => $orders,
-        ]);
+        return $this->render('frontend/orders.html.twig');
     }
 
     /**
@@ -52,6 +48,18 @@ class FrontendController extends Controller
 
         return $this->render('frontend/trade-list.html.twig', [
             'trades' => $trades,
+        ]);
+    }
+
+    /**
+     * @Route("/order-list", name="order-list")
+     */
+    public function orderList(OrderRepository $repository)
+    {
+        $orders = $repository->findBy([], ['orderCreatedAt' => 'DESC']);
+
+        return $this->render('frontend/order-list.html.twig', [
+            'orders' => $orders,
         ]);
     }
 

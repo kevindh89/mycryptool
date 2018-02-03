@@ -12,7 +12,19 @@ window.MyCryptool = {
     },
 
     updateTrades() {
-        return $.get('/api/trades', response => {
+        return $.get('/api/collect-trades', response => {
+            return response;
+        });
+    },
+
+    loadOrderList(destinationElement) {
+        return $.get('/order-list', response => {
+            destinationElement.html(response);
+        });
+    },
+
+    updateOrders() {
+        return $.get('/api/refresh-orders', response => {
             return response;
         });
     }
