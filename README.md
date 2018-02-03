@@ -26,15 +26,10 @@ These can be obtained from the [GDAX API settings](https://www.gdax.com/settings
 Update the ``.env`` file in the project root directory with the API credentials:
 
 ```
+GDAX_LEGAL_NAME=''
 GDAX_API_KEY=''
 GDAX_SECRET=''
 GDAX_PASSPHRASE=''
-```
-
-Now restart the docker containers to update the changed environment variables:
-
-```
-docker-compose restart
 ```
 
 ### Working endpoints
