@@ -5,6 +5,9 @@ Encore
     .setPublicPath('/build')
     // will create public/build/app.js and public/build/app.css
     .addEntry('app', './assets/js/app.js')
+    .addLoader(
+        { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
+    )
     // allow sass/scss files to be processed
     .enableSassLoader()
     .autoProvidejQuery()
