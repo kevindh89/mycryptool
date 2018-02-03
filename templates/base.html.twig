@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}MyCryptool{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css" />
         {% endblock %}
@@ -15,7 +15,8 @@
                 </a>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ app.session.get('activeProduct', 'BTC-EUR') }}
+                        {{ app.session.get('activeProduct', 'BTC-EUR') }}:
+                        <span class="last-trading-price"><span id="navbar-ticker"><i class="fa fa-spinner fa-pulse"></i></span> EUR</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="{{ url('dashboard', { 'product': 'BTC-EUR' }) }}">BTC/EUR</a>
@@ -49,6 +50,29 @@
         </div>
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>
+
+            <script type="text/javascript">
+                function updateNavbarTicker(event) {
+                    var navbarTicker = $('#navbar-ticker');
+                    if (isNaN(parseFloat(JSON.parse(event.data).price))) {
+                        return;
+                    }
+                    navbarTicker.html(parseFloat(JSON.parse(event.data).price).toFixed(2));
+                }
+
+                function updateWindowTitle(event) {
+                    if (isNaN(parseFloat(JSON.parse(event.data).price))) {
+                        return;
+                    }
+                    document.title = '€' + parseFloat(JSON.parse(event.data).price).toFixed(2) +
+                        ' · {{ app.session.get('activeProduct', 'BTC-EUR') }}' +
+                        ' - MyCryptool';
+                }
+
+                window.MyCryptool.openTickerWebsocket('{{ app.session.get('activeProduct', 'BTC-EUR') }}');
+                window.MyCryptool.subscribeToTickerWebsocket(updateNavbarTicker);
+                window.MyCryptool.subscribeToTickerWebsocket(updateWindowTitle);
+            </script>
         {% endblock %}
     </body>
 </html>
