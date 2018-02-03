@@ -34,3 +34,6 @@ services:
             $key: '%env(GDAX_API_KEY)%'
             $secret: '%env(GDAX_SECRET)%'
             $passphrase: '%env(GDAX_PASSPHRASE)%'
+
+    App\Session\ActiveProductSelector:
+        public: true

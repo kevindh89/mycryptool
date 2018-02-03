@@ -15,9 +15,9 @@ class TradeRepository extends ServiceEntityRepository
         parent::__construct($registry, Trade::class);
     }
 
-    public function getLastTradeId(): ?int
+    public function getLastTradeIdForProduct(string $productId): ?int
     {
-        $lastTrade = $this->findOneBy([], ['tradeId' => 'DESC']);
+        $lastTrade = $this->findOneBy(['productId' => $productId], ['tradeId' => 'DESC']);
 
         return $lastTrade !== null ? $lastTrade->getTradeId() : null;
     }

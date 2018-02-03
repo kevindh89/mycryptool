@@ -30,13 +30,13 @@ class GdaxApiSyncService
         $this->entityManager = $entityManager;
     }
 
-    public function fetchTrades(): int
+    public function fetchTrades(string $productId): int
     {
-        $lastTradeId = $this->tradeRepository->getLastTradeId();
+        $lastTradeId = $this->tradeRepository->getLastTradeIdForProduct($productId);
 
         $trades = $lastTradeId !== null ?
-            $this->client->getTradesBefore($lastTradeId) :
-            $this->client->getTrades();
+            $this->client->getTradesBefore($productId, $lastTradeId) :
+            $this->client->getTrades($productId);
 
         foreach ($trades as $trade) {
             $this->entityManager->persist(TradeFactory::fromApiResponse($trade));
@@ -46,16 +46,19 @@ class GdaxApiSyncService
         return count($trades);
     }
 
-    public function refreshOrders(): int
+    public function refreshOrders(string $productId): int
     {
-        $this->entityManager->createQuery('DELETE App\Entity\Order o')->execute();
+        $this->entityManager
+            ->createQuery('DELETE App\Entity\Order o WHERE o.productId = :productId')
+            ->setParameter('productId', $productId)
+            ->execute();
 
-        return $this->fetchOrders();
+        return $this->fetchOrders($productId);
     }
 
-    public function fetchOrders(): int
+    public function fetchOrders(string $productId): int
     {
-        $orders = $this->client->getOrders();
+        $orders = $this->client->getOrders($productId);
 
         foreach ($orders as $order) {
             $this->entityManager->persist(OrderFactory::fromApiResponse($order));

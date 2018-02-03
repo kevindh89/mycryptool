@@ -27,33 +27,33 @@ class Client
         );
     }
 
-    public function getOrders(): array
+    public function getOrders(string $productId): array
     {
-        $this->logger->info('Executed GET request /orders in \App\Exchange\Gdax\Client');
+        $this->logger->info(sprintf('Executed GET request /orders?product_id=%s in \App\Exchange\Gdax\Client', $productId));
 
         return $this->requestBuilder->request(
             'GET',
-            '/orders'
+            sprintf('/orders?product_id=%s', $productId)
         );
     }
 
-    public function getTrades(): array
+    public function getTrades(string $productId): array
     {
-        $this->logger->info('Executed GET request /fills in \App\Exchange\Gdax\Client');
+        $this->logger->info(sprintf('Executed GET request /fills?product_id=%s in \App\Exchange\Gdax\Client', $productId));
 
         return $this->requestBuilder->request(
             'GET',
-            '/fills'
+            sprintf('/fills?product_id=%s', $productId)
         );
     }
 
-    public function getTradesBefore(int $tradeId): array
+    public function getTradesBefore(string $productId, int $tradeId): array
     {
-        $this->logger->info(sprintf('Executed GET request /fills?before=%s in \App\Exchange\Gdax\Client', $tradeId));
+        $this->logger->info(sprintf('Executed GET request /fills?product_id=%s&before=%s in \App\Exchange\Gdax\Client', $productId, $tradeId));
 
         return $this->requestBuilder->request(
             'GET',
-            sprintf('/fills?before=%s', $tradeId)
+            sprintf('/fills?product_id=%s&before=%s', $productId, $tradeId)
         );
     }
 }

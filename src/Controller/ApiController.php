@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Exchange\Gdax\Client;
+use App\Session\ActiveProductSelector;
 use App\Sync\GdaxApiSyncService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,12 +31,14 @@ class ApiController
     /**
      * @Route("/trades", name="trades")
      */
-    public function trades(Request $request, Client $client): Response
+    public function trades(Request $request, Client $client, ActiveProductSelector $productSelector): Response
     {
         $lastTradeId = $request->query->get('cb-before', null);
+        $activeProduct = $productSelector->getActiveProduct();
+
         $trades = $lastTradeId !== null ?
-            $client->getTradesBefore($lastTradeId) :
-            $client->getTrades();
+            $client->getTradesBefore($activeProduct, $lastTradeId) :
+            $client->getTrades($activeProduct);
 
         return new Response(
             '<pre>' . json_encode($trades, JSON_PRETTY_PRINT) . '</pre>'
@@ -45,9 +48,9 @@ class ApiController
     /**
      * @Route("/orders", name="orders")
      */
-    public function orders(Client $gdaxRepository): Response
+    public function orders(Client $gdaxRepository, ActiveProductSelector $productSelector): Response
     {
-        $orders = $gdaxRepository->getOrders();
+        $orders = $gdaxRepository->getOrders($productSelector->getActiveProduct());
 
         return new Response(
             '<pre>' . json_encode($orders, JSON_PRETTY_PRINT) . '</pre>'
@@ -57,9 +60,9 @@ class ApiController
     /**
      * @Route("/collect-trades", name="collect_trades")
      */
-    public function collectTrades(GdaxApiSyncService $syncService): Response
+    public function collectTrades(GdaxApiSyncService $syncService, ActiveProductSelector $productSelector): Response
     {
-        $syncedTradeCount = $syncService->fetchTrades();
+        $syncedTradeCount = $syncService->fetchTrades($productSelector->getActiveProduct());
 
         return new Response(sprintf('Stored %s trades', $syncedTradeCount));
     }
@@ -67,9 +70,9 @@ class ApiController
     /**
      * @Route("/refresh-orders", name="collect_orders")
      */
-    public function refreshOrders(GdaxApiSyncService $syncService): Response
+    public function refreshOrders(GdaxApiSyncService $syncService, ActiveProductSelector $productSelector): Response
     {
-        $syncedOrdersCount = $syncService->refreshOrders();
+        $syncedOrdersCount = $syncService->refreshOrders($productSelector->getActiveProduct());
 
         return new Response(sprintf('Stored %s orders', $syncedOrdersCount));
     }

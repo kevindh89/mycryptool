@@ -6,8 +6,10 @@ namespace App\Controller;
 
 use App\Repository\OrderRepository;
 use App\Repository\TradeRepository;
+use App\Session\ActiveProductSelector;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,6 +23,17 @@ class FrontendController extends Controller
         return $this->render('frontend/home.html.twig', [
             'meme' => $this->getRandomMeme(),
         ]);
+    }
+
+    /**
+     * @Route("/dashboard", name="dashboard")
+     */
+    public function dashboard(Request $request, ActiveProductSelector $productSelector): Response
+    {
+        $product = $request->query->get('product', 'BTC-EUR');
+        $productSelector->setActiveProduct($product);
+
+        return $this->render('frontend/dashboard.html.twig');
     }
 
     /**

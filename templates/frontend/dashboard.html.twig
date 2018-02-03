@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <blockquote class="blockquote text-center" style="margin-top: 30px;">
+        <h1 class="mb-0">Active product: {{ app.session.get('activeProduct') }}</h1>
+    </blockquote>
+{% endblock %}
