@@ -26,9 +26,9 @@ html, body {
 }
 
 .order-list-order-header {
-  background: #104842;
+  display: inline-block;
   &:hover {
-    background: #16635b;
+    color: white;
     cursor: pointer;
   }
 }
