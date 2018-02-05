@@ -4,6 +4,7 @@
         <th scope="col">Product</th>
         <th scope="col">Size</th>
         <th scope="col">Price</th>
+        <th scope="col">Buy/sell</th>
         <th scope="col">Date</th>
     </tr>
     </thead>
@@ -13,6 +14,7 @@
             <td>{{ trade.productId }}</td>
             <td>{{ trade.size }}</td>
             <td>{{ trade.price }}</td>
+            <td>{{ trade.side }}</td>
             <td>{{ trade.tradeCreatedAt | date('d-m-Y H:i:s') }}</td>
         </tr>
     {% endfor %}
