@@ -17,3 +17,18 @@ html, body {
     color: #bbbbbb;
   }
 }
+
+.order-list-day-header {
+  &:hover {
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.order-list-order-header {
+  background: #104842;
+  &:hover {
+    background: #16635b;
+    cursor: pointer;
+  }
+}

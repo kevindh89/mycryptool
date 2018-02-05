@@ -1,22 +1,31 @@
-<table class="table table-striped table-dark">
-    <thead>
-    <tr>
-        <th scope="col">Product</th>
-        <th scope="col">Size</th>
-        <th scope="col">Price</th>
-        <th scope="col">Buy/sell</th>
-        <th scope="col">Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for trade in trades %}
-        <tr>
-            <td>{{ trade.productId }}</td>
-            <td>{{ trade.size }}</td>
-            <td>{{ trade.price }}</td>
-            <td>{{ trade.side }}</td>
-            <td>{{ trade.tradeCreatedAt | date('d-m-Y H:i:s') }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% for trade in trades %}
+    {% if loop.first or trades[loop.index0-1].tradeCreatedAt | date('d-m-Y') != trade.tradeCreatedAt | date('d-m-Y') %}
+        <h2 class="order-list-day-header lead py-1 px-2" onclick="$('#order-day-{{ trade.tradeCreatedAt | date('d-m-Y') }}').toggle();">
+            {{ trade.tradeCreatedAt | date('d-m-Y') }}
+        </h2>
+        <div id="order-day-{{ trade.tradeCreatedAt | date('d-m-Y') }}">
+    {% endif %}
+
+    {% if loop.first or trades[loop.index0-1].orderId != trade.orderId %}
+        <div class="order-list-order-header text-light py-1 px-2" onclick="$('#order-{{ trade.orderId }}').toggle();">
+            {{ trade.tradeCreatedAt | date('H:i:s') }}
+        </div>
+        <table class="table table-striped table-dark">
+            <tbody id="order-{{ trade.orderId }}">
+    {% endif %}
+
+            <tr>
+                <td class="{% if trade.side == 'buy' %}bg-success{% else %}bg-danger{% endif %}" style="width: 1%;"></td>
+                <td style="width: 30%;">{{ trade.productId }}</td>
+                <td style="width: 20%;">{{ trade.size }}</td>
+                <td style="width: 49%;">€ {{ trade.price | number_format(2, ',', '.') }}</td>
+            </tr>
+
+    {% if loop.last or trades[loop.index0+1].orderId != trade.orderId %}
+            </tbody>
+        </table>
+    {% endif %}
+    {% if loop.last or trades[loop.index0+1].tradeCreatedAt | date('d-m-Y') != trade.tradeCreatedAt | date('d-m-Y') %}
+        </div>
+    {% endif %}
+{% endfor %}
