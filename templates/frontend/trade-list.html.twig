@@ -28,6 +28,27 @@
         <div id="order-day-{{ trade.tradeCreatedAt | date('d-m-Y') }}" class="day-orders-container">
     {% endif %}
 
+    {% if loop.first %}
+        <table class="table table-striped table-dark text-lightdark" style="font-style: italic;">
+            <tbody>
+            <tr>
+                <td style="width: 10%;" class="text-center {% if trade.side != 'buy' %}bg-success{% else %}bg-danger{% endif %}">
+                    {{ (trade.side == 'buy' ? 'sell' : 'buy') | upper }} @ ≈€<span id="trade-list-possible-trade-current-price"></span>
+                </td>
+                <td style="width: 40%;">
+                    <span id="trade-list-possible-trade-size">{{ trade.size }}</span> <span class="text-lightdark">{{ primaryActiveProduct }}</span>
+                </td>
+                <td style="width: 35%;" class="text-lightdark">
+                    Possible trade
+                </td>
+                <td style="width: 15%;" class="text-right">
+                    ≈€<span id="trade-list-possible-trade-current-total-price"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
+
         <table class="table table-striped table-dark">
             <tbody>
             <tr>
