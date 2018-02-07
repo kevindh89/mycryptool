@@ -32,11 +32,17 @@
             <tbody>
             <tr>
                 <td style="width: 10%;" class="text-center {% if trade.side == 'buy' %}bg-success{% else %}bg-danger{% endif %}">
-                    {{ trade.side | upper }} @ €{{ trade.averagePrice | number_format(2, ',', '.') }}
+                    {{ trade.side | upper }} @ ≈€{{ trade.averagePrice | number_format(2, ',', '.') }}
                 </td>
-                <td style="width: 25%;">{{ trade.productId }}</td>
-                <td style="width: 25%;">{{ trade.size }}</td>
-                <td style="width: 40%;">{{ trade.tradeCreatedAt | date('H:i:s') }}</td>
+                <td style="width: 40%;">
+                    {{ trade.size }} <span class="text-lightdark">{{ primaryActiveProduct }}</span>
+                </td>
+                <td style="width: 35%;" class="text-lightdark">
+                    {{ trade.tradeCreatedAt | date('H:i:s') }}
+                </td>
+                <td style="width: 15%;" class="text-right">
+                    ≈€{{ (trade.size * trade.averagePrice) | number_format(2, ',', '.') }}
+                </td>
             </tr>
             </tbody>
         </table>
