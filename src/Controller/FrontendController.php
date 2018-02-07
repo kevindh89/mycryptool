@@ -55,12 +55,35 @@ class FrontendController extends Controller
     /**
      * @Route("/trade-list", name="trade-list")
      */
-    public function tradeList(TradeRepository $repository)
+    public function tradeList(TradeRepository $repository, ActiveProductSelector $productSelector)
     {
-        $trades = $repository->findBy([], ['tradeCreatedAt' => 'DESC']);
+        $gainsLossesPerDay = [];
+        $groupedTrades = $repository->getGroupedTrades($productSelector->getActiveProduct());
+
+        foreach ($groupedTrades as $trade) {
+            $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')] =
+                isset($gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')]) ?
+                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')] :
+                [
+                    'EUR' => 0,
+                    $productSelector->getPrimaryActiveProduct() => 0,
+                ];
+
+            if ($trade->getSide() === 'buy') {
+                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')]['EUR'] -= $trade->getAveragePrice() * $trade->getSize();
+                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')][$productSelector->getPrimaryActiveProduct()] += $trade->getSize();
+            } else {
+                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')]['EUR'] += $trade->getAveragePrice() * $trade->getSize();
+                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')][$productSelector->getPrimaryActiveProduct()] -= $trade->getSize();
+            }
+
+            $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')]['EUR'] -= $trade->getFee();
+        }
 
         return $this->render('frontend/trade-list.html.twig', [
-            'trades' => $trades,
+            'trades' => $groupedTrades,
+            'gainsLossesPerDay' => $gainsLossesPerDay,
+            'primaryActiveProduct' => $productSelector->getPrimaryActiveProduct(),
         ]);
     }
 

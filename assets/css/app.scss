@@ -19,6 +19,10 @@ html, body {
 }
 
 .order-list-day-header {
+  padding-bottom: 10px !important;
+  border-bottom: 5px dotted gray;
+  margin-bottom: 15px;
+
   &:hover {
     color: white;
     cursor: pointer;
@@ -27,8 +31,14 @@ html, body {
 
 .order-list-order-header {
   display: inline-block;
+
   &:hover {
     color: white;
     cursor: pointer;
   }
+}
+
+.day-orders-container {
+  border-bottom: 5px dotted gray;
+  margin-bottom: 15px;
 }
