@@ -13,4 +13,6 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {{ render(controller('App\\Controller\\AccountController::update')) }}
 {% endblock %}
