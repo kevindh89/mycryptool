@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Exchange\Gdax\Client;
 use App\Repository\OrderRepository;
 use App\Repository\TradeRepository;
 use App\Session\ActiveProductSelector;
@@ -28,12 +29,26 @@ class FrontendController extends Controller
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(Request $request, ActiveProductSelector $productSelector): Response
+    public function dashboard(Client $client): Response
     {
-        $product = $request->query->get('product', 'BTC-EUR');
-        $productSelector->setActiveProduct($product);
+        $accounts = $client->getAccounts();
 
-        return $this->render('frontend/dashboard.html.twig');
+        return $this->render('frontend/dashboard.html.twig', [
+            'accounts' => $accounts,
+        ]);
+    }
+
+    /**
+     * @Route("/select-active-product", name="select-active-product")
+     */
+    public function selectActiveProduct(Request $request, ActiveProductSelector $productSelector): Response
+    {
+        if ($request->query->get('product')) {
+            $product = $request->query->get('product', 'BTC-EUR');
+            $productSelector->setActiveProduct($product);
+        }
+
+        return $this->redirect($this->generateUrl('dashboard'));
     }
 
     /**

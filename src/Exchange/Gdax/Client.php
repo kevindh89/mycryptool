@@ -56,4 +56,14 @@ class Client
             sprintf('/fills?product_id=%s&before=%s', $productId, $tradeId)
         );
     }
+
+    public function getAccounts(): array
+    {
+        $this->logger->info('Executed GET request /accounts in \App\Exchange\Gdax\Client');
+
+        return $this->requestBuilder->request(
+            'GET',
+            '/accounts'
+        );
+    }
 }

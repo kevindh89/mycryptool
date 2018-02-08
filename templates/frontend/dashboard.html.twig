@@ -1,7 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <blockquote class="blockquote text-center" style="margin-top: 30px;">
-        <h1 class="mb-0">Active product: {{ app.session.get('activeProduct') }}</h1>
-    </blockquote>
+    <h1>Holdings</h1>
+
+    <table class="table-bordered">
+        <tbody>
+        {% for account in accounts %}
+        <tr>
+            <td>{{ account.currency }}</td>
+            <td>{{ account.balance }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

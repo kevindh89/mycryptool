@@ -19,10 +19,10 @@
                         <span class="last-trading-price"><span id="navbar-ticker"><i class="fa fa-spinner fa-pulse"></i></span> EUR</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{{ url('dashboard', { 'product': 'BTC-EUR' }) }}">BTC/EUR</a>
-                        <a class="dropdown-item" href="{{ url('dashboard', { 'product': 'BCH-EUR' }) }}">BCH/EUR</a>
-                        <a class="dropdown-item" href="{{ url('dashboard', { 'product': 'ETH-EUR' }) }}">ETH/EUR</a>
-                        <a class="dropdown-item" href="{{ url('dashboard', { 'product': 'LTC-EUR' }) }}">LTC/EUR</a>
+                        <a class="dropdown-item" href="{{ url('select-active-product', { 'product': 'BTC-EUR' }) }}">BTC/EUR</a>
+                        <a class="dropdown-item" href="{{ url('select-active-product', { 'product': 'BCH-EUR' }) }}">BCH/EUR</a>
+                        <a class="dropdown-item" href="{{ url('select-active-product', { 'product': 'ETH-EUR' }) }}">ETH/EUR</a>
+                        <a class="dropdown-item" href="{{ url('select-active-product', { 'product': 'LTC-EUR' }) }}">LTC/EUR</a>
                     </div>
                 </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item mx-1">
-                            <a class="nav-link" href="{{ url('home') }}">Dashboard</a>
+                            <a class="nav-link" href="{{ url('dashboard') }}">Dashboard</a>
                         </li>
                         <li class="nav-item mx-1">
                             <a class="nav-link" href="{{ url('orders') }}">Open orders</a>
