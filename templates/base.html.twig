@@ -50,28 +50,12 @@
         </div>
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('build/tickers.js') }}"></script>
 
             <script type="text/javascript">
-                function updateNavbarTicker(event) {
-                    var navbarTicker = $('#navbar-ticker');
-                    if (isNaN(parseFloat(JSON.parse(event.data).price))) {
-                        return;
-                    }
-                    navbarTicker.html(parseFloat(JSON.parse(event.data).price).toFixed(2));
-                }
-
-                function updateWindowTitle(event) {
-                    if (isNaN(parseFloat(JSON.parse(event.data).price))) {
-                        return;
-                    }
-                    document.title = '€' + parseFloat(JSON.parse(event.data).price).toFixed(2) +
-                        ' · {{ app.session.get('activeProduct', 'BTC-EUR') }}' +
-                        ' - MyCryptool';
-                }
-
                 window.MyCryptool.openTickerWebsocket('{{ app.session.get('activeProduct', 'BTC-EUR') }}');
-                window.MyCryptool.subscribeToTickerWebsocket(updateNavbarTicker);
-                window.MyCryptool.subscribeToTickerWebsocket(updateWindowTitle);
+                window.MyCryptool.subscribeToTickerWebsocket(NavbarTicker, $('#navbar-ticker'));
+                window.MyCryptool.subscribeToTickerWebsocket(WindowTitleTicker, '{{ app.session.get('activeProduct', 'BTC-EUR') }}');
             </script>
         {% endblock %}
     </body>

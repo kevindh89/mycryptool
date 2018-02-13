@@ -4,7 +4,7 @@ var $ = require('jquery');
 window.$ = $;
 require('bootstrap');
 
-window.MyCryptool = {
+MyCryptool = {
     tickerWebsocket: {
         websocket: undefined,
         subscribers: []
@@ -35,9 +35,9 @@ window.MyCryptool = {
     },
 
     openTickerWebsocket(productId) {
-        window.MyCryptool.tickerWebsocket.websocket = new WebSocket('wss://ws-feed.gdax.com');
+        MyCryptool.tickerWebsocket.websocket = new WebSocket('wss://ws-feed.gdax.com');
 
-        window.MyCryptool.tickerWebsocket.websocket.onopen = () => {
+        MyCryptool.tickerWebsocket.websocket.onopen = () => {
             const subscribeMessage = {
                 "type": "subscribe",
                 "product_ids": [
@@ -52,17 +52,22 @@ window.MyCryptool = {
                     }
                 ]
             };
-            window.MyCryptool.tickerWebsocket.websocket.send(JSON.stringify(subscribeMessage));
+            MyCryptool.tickerWebsocket.websocket.send(JSON.stringify(subscribeMessage));
         };
 
-        window.MyCryptool.tickerWebsocket.websocket.onmessage = (event) => {
-            window.MyCryptool.tickerWebsocket.subscribers.forEach(callback => {
-                callback(event);
+        MyCryptool.tickerWebsocket.websocket.onmessage = (event) => {
+            MyCryptool.tickerWebsocket.subscribers.forEach(subscriber => {
+                subscriber.callback(event, ...subscriber.args);
             });
         };
     },
 
-    subscribeToTickerWebsocket(callback) {
-        window.MyCryptool.tickerWebsocket.subscribers.push(callback);
+    subscribeToTickerWebsocket(callback, ...args) {
+        MyCryptool.tickerWebsocket.subscribers.push({
+            callback: callback,
+            args: args
+        });
     }
 };
+
+window.MyCryptool = MyCryptool;

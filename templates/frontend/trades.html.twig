@@ -25,17 +25,11 @@
                 });
         }
 
-        function updateTradeListActiveProductPrice(event) {
-            var tradeListPossibleTradePrice = $('#trade-list-possible-trade-current-price');
-            var tradeListPossibleTotalTradePrice= $('#trade-list-possible-trade-current-total-price');
-
-            if (isNaN(parseFloat(JSON.parse(event.data).price))) {
-                return;
-            }
-            tradeListPossibleTradePrice.html(parseFloat(JSON.parse(event.data).price).toFixed(2));
-            tradeListPossibleTotalTradePrice.html((parseFloat(JSON.parse(event.data).price) * parseFloat($('#trade-list-possible-trade-size').html())).toFixed(2));
-        }
-
-        window.MyCryptool.subscribeToTickerWebsocket(updateTradeListActiveProductPrice);
+        MyCryptool.subscribeToTickerWebsocket(
+            TradeListTicker,
+            $('#trade-list-possible-trade-current-price'),
+            $('#trade-list-possible-trade-current-total-price'),
+            $('#trade-list-possible-trade-size')
+        );
     </script>
 {% endblock %}
