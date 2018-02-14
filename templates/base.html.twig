@@ -16,7 +16,13 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ app.session.get('activeProduct', 'BTC-EUR') }}:
-                        <span class="last-trading-price"><span id="navbar-ticker"><i class="fa fa-spinner fa-pulse"></i></span> EUR</span>
+                        <span class="last-trading-price">
+                            <span id="navbar-ticker">
+                                {{ render(controller('App\\Controller\\ApiController::rates', {
+                                    product: app.session.get('activeProduct', 'BTC-EUR')
+                                })) | number_format(2, '.', '') }}
+                            </span> EUR
+                        </span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="{{ url('select-active-product', { 'product': 'BTC-EUR' }) }}">BTC/EUR</a>

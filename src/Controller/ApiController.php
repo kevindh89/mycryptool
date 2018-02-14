@@ -17,15 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiController
 {
     /**
-     * @Route("/rates", name="rates")
+     * @Route("/rate/{product}", name="rates")
      */
-    public function rates(Client $client): Response
+    public function rates(string $product, Client $client): Response
     {
-        $rates = $client->getRate('ETH-EUR');
-
-        return new Response(
-            '<pre>' . json_encode($rates, JSON_PRETTY_PRINT) . '</pre>'
-        );
+        return new Response($client->getRate($product)['price']);
     }
 
     /**
