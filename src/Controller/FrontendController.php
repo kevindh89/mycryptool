@@ -32,9 +32,14 @@ class FrontendController extends Controller
     public function dashboard(Client $client): Response
     {
         $accounts = $client->getAccounts();
+        $account = $this
+            ->getDoctrine()
+            ->getRepository('App\Entity\Account')
+            ->find(getenv('GDAX_API_KEY'));
 
         return $this->render('frontend/dashboard.html.twig', [
             'accounts' => $accounts,
+            'account' => $account,
         ]);
     }
 

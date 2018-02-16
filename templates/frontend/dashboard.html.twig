@@ -1,18 +1,54 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Holdings</h1>
+    <div class="dashboard-container">
+        <h1>Holdings</h1>
 
-    <table class="table-bordered">
-        <tbody>
-        {% for account in accounts %}
-        <tr>
-            <td>{{ account.currency }}</td>
-            <td>{{ account.balance }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table table-bordered table-dark">
+            <tbody>
+            {% set totalValue = 0 %}
+            {% for account in accounts %}
+            <tr>
+                <td class="w-25 p-2">
+                    {{ account.balance | number_format(2, '.', '') }} {{ account.currency }}
+                </td>
+                <td class="w-25 p-2 text-secondary">
+                    {% if account.currency != 'EUR' %}
+                        {% set rate = render(controller('App\\Controller\\ApiController::rates', {
+                        product: account.currency ~ '-EUR'
+                        })) %}
+                        x € {{ rate | number_format(2, ',', '.') }}
+                    {% endif %}
+                </td>
+                <td class="w-50 p-2">
+                    {% if account.currency != 'EUR' %}
+                        {% set rate = render(controller('App\\Controller\\ApiController::rates', {
+                        product: account.currency ~ '-EUR'
+                        })) %}
+                        {% set holdingValue = (account.balance * rate) %}
+                    {% else %}
+                        {% set holdingValue = account.balance %}
+                    {% endif %}
+                    € {{ holdingValue | number_format(2, ',', '.') }}
+                    {% set totalValue = totalValue + holdingValue %}
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2"></td>
+                <td>
+                    <span class="{% if account.startCapital > totalValue %}text-danger{% else %}text-success{% endif %}">
+                        € {{ totalValue | number_format(2, ',', '.') }}
+                        ({{ (totalValue - account.startCapital) | number_format(2, ',', '.') }})
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-    {{ render(controller('App\\Controller\\AccountController::update')) }}
+        <div class="clearfix mt-4"></div>
+
+        <h1>Account settings</h1>
+        {{ render(controller('App\\Controller\\AccountController::update')) }}
+    </div>
 {% endblock %}
