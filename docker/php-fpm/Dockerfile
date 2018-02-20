@@ -12,12 +12,15 @@ RUN apt-get update && \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
+        libicu-dev \
         zip \
         unzip && \
     docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include && \
     docker-php-ext-install gd && \
     docker-php-ext-install pdo_mysql && \
-    docker-php-ext-install zip
+    docker-php-ext-install zip && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl
 
 
 # Install nodejs

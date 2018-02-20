@@ -16,7 +16,8 @@
         "symfony/orm-pack": "^1.0",
         "symfony/twig-bundle": "^4.0",
         "symfony/web-profiler-bundle": "^4.0",
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "^4.0",
+        "twig/extensions": "^1.5"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.10",

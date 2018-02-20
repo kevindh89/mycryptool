@@ -17,7 +17,7 @@
                         {% set rate = render(controller('App\\Controller\\ApiController::rates', {
                         product: account.currency ~ '-EUR'
                         })) %}
-                        x € {{ rate | number_format(2, ',', '.') }}
+                        x {{ rate | localizedcurrency('EUR') }}
                     {% endif %}
                 </td>
                 <td class="w-50 p-2">
@@ -29,7 +29,7 @@
                     {% else %}
                         {% set holdingValue = account.balance %}
                     {% endif %}
-                    € {{ holdingValue | number_format(2, ',', '.') }}
+                    {{ holdingValue | localizedcurrency('EUR') }}
                     {% set totalValue = totalValue + holdingValue %}
                 </td>
             </tr>
@@ -38,8 +38,8 @@
                 <td colspan="2"></td>
                 <td>
                     <span class="{% if account.startCapital > totalValue %}text-danger{% else %}text-success{% endif %}">
-                        € {{ totalValue | number_format(2, ',', '.') }}
-                        ({{ (totalValue - account.startCapital) | number_format(2, ',', '.') }})
+                        {{ totalValue | localizedcurrency('EUR') }}
+                        ({{ (totalValue - account.startCapital) | localizedcurrency('EUR') }})
                     </span>
                 </td>
             </tr>

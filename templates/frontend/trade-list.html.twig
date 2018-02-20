@@ -6,11 +6,11 @@
             <span class="pull-right">
                 {% if gainsLossesPerDay[trade.tradeCreatedAt | date('d-m-Y')]['EUR'] > 0 %}
                     <span class="text-success">
-                        +€{{ gainsLossesPerDay[trade.tradeCreatedAt | date('d-m-Y')]['EUR'] | number_format(2, ',', '.') }}
+                        +{{ gainsLossesPerDay[trade.tradeCreatedAt | date('d-m-Y')]['EUR'] | localizedcurrency('EUR') }}
                     </span>
                 {% else %}
                     <span class="text-danger">
-                        -€{{ (gainsLossesPerDay[trade.tradeCreatedAt | date('d-m-Y')]['EUR'] * -1) | number_format(2, ',', '.') }}
+                        {{ (gainsLossesPerDay[trade.tradeCreatedAt | date('d-m-Y')]['EUR'] * -1) | localizedcurrency('EUR') }}
                     </span>
                 {% endif %}
 
@@ -34,9 +34,9 @@
             <tr>
                 <td style="width: 10%;" class="text-center {% if trade.side != 'buy' %}bg-success{% else %}bg-danger{% endif %}">
                     {{ (trade.side == 'buy' ? 'sell' : 'buy') | upper }} @
-                    ≈€<span id="trade-list-possible-trade-current-price">{{ render(controller('App\\Controller\\ApiController::rates', {
+                    ≈<span id="trade-list-possible-trade-current-price">{{ render(controller('App\\Controller\\ApiController::rates', {
                             product: app.session.get('activeProduct', 'BTC-EUR')
-                        })) | number_format(2, '.', '') }}</span>
+                        })) | localizedcurrency('EUR') }}</span>
                 </td>
                 <td style="width: 40%;">
                     <span id="trade-list-possible-trade-size">{{ trade.size }}</span> <span class="text-lightdark">{{ primaryActiveProduct }}</span>
@@ -45,9 +45,9 @@
                     Possible trade
                 </td>
                 <td style="width: 15%;" class="text-right">
-                    ≈€<span id="trade-list-possible-trade-current-total-price">{{ (render(controller('App\\Controller\\ApiController::rates', {
+                    ≈<span id="trade-list-possible-trade-current-total-price">{{ (render(controller('App\\Controller\\ApiController::rates', {
                             product: app.session.get('activeProduct', 'BTC-EUR')
-                        })) * trade.size) | number_format(2, '.', '') }}</span>
+                        })) * trade.size) | localizedcurrency('EUR') }}</span>
                 </td>
             </tr>
             </tbody>
@@ -58,7 +58,7 @@
             <tbody>
             <tr>
                 <td style="width: 10%;" class="text-center {% if trade.side == 'buy' %}bg-success{% else %}bg-danger{% endif %}">
-                    {{ trade.side | upper }} @ ≈€{{ trade.averagePrice | number_format(2, ',', '.') }}
+                    {{ trade.side | upper }} @ ≈{{ trade.averagePrice | localizedcurrency('EUR') }}
                 </td>
                 <td style="width: 40%;">
                     {{ trade.size }} <span class="text-lightdark">{{ primaryActiveProduct }}</span>
@@ -67,7 +67,7 @@
                     {{ trade.tradeCreatedAt | date('H:i:s') }}
                 </td>
                 <td style="width: 15%;" class="text-right">
-                    ≈€{{ (trade.size * trade.averagePrice) | number_format(2, ',', '.') }}
+                    ≈{{ (trade.size * trade.averagePrice) | localizedcurrency('EUR') }}
                 </td>
             </tr>
             </tbody>
