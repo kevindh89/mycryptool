@@ -31,15 +31,23 @@ class FrontendController extends Controller
      */
     public function dashboard(Client $client): Response
     {
-        $accounts = $client->getAccounts();
+        $gdaxAccounts = $client->getAccounts();
         $account = $this
             ->getDoctrine()
             ->getRepository('App\Entity\Account')
             ->find(getenv('GDAX_API_KEY'));
 
+        $rates = [];
+        foreach ($gdaxAccounts as $gdaxAccount) {
+            $rates[$gdaxAccount['currency']] = $gdaxAccount['currency'] !== 'EUR' ?
+                $client->getRate($gdaxAccount['currency'] . '-EUR') :
+                '';
+        }
+
         return $this->render('frontend/dashboard.html.twig', [
-            'accounts' => $accounts,
+            'accounts' => $gdaxAccounts,
             'account' => $account,
+            'rates' => $rates,
         ]);
     }
 

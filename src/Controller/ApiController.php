@@ -21,7 +21,7 @@ class ApiController
      */
     public function rates(string $product, Client $client): Response
     {
-        return new Response($client->getRate($product)['price']);
+        return new Response($client->getRate($product));
     }
 
     /**

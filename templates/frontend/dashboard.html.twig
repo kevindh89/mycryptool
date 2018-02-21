@@ -14,17 +14,13 @@
                 </td>
                 <td class="w-25 p-2 text-secondary">
                     {% if account.currency != 'EUR' %}
-                        {% set rate = render(controller('App\\Controller\\ApiController::rates', {
-                        product: account.currency ~ '-EUR'
-                        })) %}
+                        {% set rate = rates[account.currency] %}
                         x {{ rate | localizedcurrency('EUR') }}
                     {% endif %}
                 </td>
                 <td class="w-50 p-2">
                     {% if account.currency != 'EUR' %}
-                        {% set rate = render(controller('App\\Controller\\ApiController::rates', {
-                        product: account.currency ~ '-EUR'
-                        })) %}
+                        {% set rate = rates[account.currency] %}
                         {% set holdingValue = (account.balance * rate) %}
                     {% else %}
                         {% set holdingValue = account.balance %}

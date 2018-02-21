@@ -17,14 +17,15 @@ class Client
         $this->logger = $logger;
     }
 
-    public function getRate(string $currency = 'ETH-EUR'): array
+    public function getRate(string $currency = 'ETH-EUR'): float
     {
         $this->logger->info(sprintf('Executed GET request /products/%s/ticker in \App\Exchange\Gdax\Client', $currency));
-
-        return $this->requestBuilder->request(
+        $response = $this->requestBuilder->request(
             'GET',
             sprintf('/products/%s/ticker', $currency)
         );
+
+        return (float) $response['price'];
     }
 
     public function getOrders(string $productId): array

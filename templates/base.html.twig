@@ -18,9 +18,7 @@
                         {{ app.session.get('activeProduct', 'BTC-EUR') }}:
                         <span class="last-trading-price">
                             <span id="navbar-ticker">
-                                {{ render(controller('App\\Controller\\ApiController::rates', {
-                                    product: app.session.get('activeProduct', 'BTC-EUR')
-                                })) | number_format(2, '.', '') }}
+                                {{ app.session.get('rate') }}
                             </span> EUR
                         </span>
                     </button>

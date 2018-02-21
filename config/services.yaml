@@ -11,8 +11,7 @@ services:
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
 
-    GuzzleHttp\Client:
-        public: true
+    GuzzleHttp\Client: ~
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -35,5 +34,8 @@ services:
             $secret: '%env(GDAX_SECRET)%'
             $passphrase: '%env(GDAX_PASSPHRASE)%'
 
-    App\Session\ActiveProductSelector:
-        public: true
+    App\Session\ActiveProductSelector: ~
+
+    App\EventListener\GetGdaxRateRequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller }
