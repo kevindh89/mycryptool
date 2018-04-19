@@ -16,6 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccountController extends Controller
 {
     /**
+     * @Route("/setup", name="setup")
+     */
+    public function setup(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $startCapital = $request->request->get('start-capital');
+
+            $account = new Account(getenv('GDAX_API_KEY'), (float) $startCapital);
+            $account->setStartCapital((float) $startCapital);
+            $this->getDoctrine()->getManager()->persist($account);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirect($this->generateUrl('dashboard'));
+        }
+
+        return $this->render('account/setup.html.twig');
+    }
+
+    /**
      * @Route("/update", name="update")
      */
     public function update(Request $request): Response
