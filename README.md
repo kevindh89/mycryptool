@@ -36,7 +36,7 @@ GDAX_PASSPHRASE=''
 
 ### Working endpoints
 
-After configuring the API credentials, these endpoints should give 200 responses with valid body:
+After configuring the API credentials, these endpoints should give valid HTTP 200-responses:
 
 __Trading rate (BTC-EUR)__: http://mycryptool.test/api/rate/BTC-EUR \
 __Orders__: http://mycryptool.test/api/orders
