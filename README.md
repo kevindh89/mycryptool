@@ -15,7 +15,7 @@ Run setup script:
 
 Add this line to your ``/etc/hosts`` file:
 ```
-192.168.99.100 mycryptool.test
+127.0.0.1 mycryptool.test
 ```
 
 __MyCryptool__ should now be available on http://mycryptool.test and show "MyCryptool is working!".
@@ -36,11 +36,10 @@ GDAX_PASSPHRASE=''
 
 ### Working endpoints
 
-After configuring the API credentials, these endpoints should give valid json responses:
+After configuring the API credentials, these endpoints should give 200 responses with valid body:
 
-_Rates_: http://mycryptool.test/api/rates
-
-_Orders_: http://mycryptool.test/api/orders
+__Trading rate (BTC-EUR)__: http://mycryptool.test/api/rate/BTC-EUR \
+__Orders__: http://mycryptool.test/api/orders
 
 ## Testing
 

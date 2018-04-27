@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Start docker machine
-docker-machine start default
-eval $(docker-machine env)
-
 # Copy .env.dist to .env if it doesn't already exist
 cp -n .env.dist .env
 
