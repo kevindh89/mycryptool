@@ -6,6 +6,7 @@ Encore
     // will create public/build/app.js and public/build/app.css
     .addEntry('app', './assets/js/app.js')
     .addEntry('tickers', './assets/js/tickers.js')
+    .addEntry('home', './assets/js/home.jsx')
     .addLoader(
         { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
     )
@@ -15,6 +16,7 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
+    .enableReactPreset()
 ;
 
 module.exports = Encore.getWebpackConfig();

@@ -12,10 +12,16 @@
     "node-sass": "https://github.com/sass/node-sass/tarball/v5",
     "npm": "^6.0.0",
     "popper.js": "^1.12.9",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "sass-loader": "^6.0.6",
     "webpack-notifier": "^1.5.1"
   },
   "devDependencies": {
-    "@symfony/webpack-encore": "^0.20.1"
+    "@symfony/webpack-encore": "^0.20.1",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1"
   }
 }

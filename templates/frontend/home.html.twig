@@ -1,14 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <blockquote class="blockquote text-center" style="margin-top: 30px;">
-        <h1 class="mb-0">MyCryptool is working!</h1>
-        <footer class="blockquote-footer">nginx, PHP and mysql in cooperation with <cite title="Docker">Docker</cite></footer>
-    </blockquote>
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('build/home.js') }}"></script>
+{% endblock %}
 
-    <div class="text-center mt-5">
-        <figure class="figure meme-figure">
-            <img src="{{ asset('images/memes/'~ meme) }}" class="figure-img img-fluid rounded img-thumbnail">
-        </figure>
-    </div>
+{% block body %}
+    <div id="container" data-meme-file="{{ asset('images/memes/'~ meme) }}"></div>
 {% endblock %}
