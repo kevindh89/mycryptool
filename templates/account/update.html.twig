@@ -9,7 +9,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text bg-dark text-light">€</span>
                     </div>
-                    <input type="text" class="form-control text-light bg-dark" id="start-capital" name="start-capital" value="{{ account.startCapital }}" />
+                    <input type="text" class="form-control text-light bg-dark" id="start-capital" name="start-capital" value="{{ app.request.session.get('startCapital', 0) }}" />
                 </div>
             </div>
             <div class="col-sm-4">

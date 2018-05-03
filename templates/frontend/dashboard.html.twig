@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% set startCapital = app.request.session.get('startCapital', 0) %}
     <div class="dashboard-container">
         <h1>Holdings</h1>
 
@@ -33,9 +34,9 @@
             <tr>
                 <td colspan="2"></td>
                 <td>
-                    <span class="{% if account.startCapital > totalValue %}text-danger{% else %}text-success{% endif %}">
+                    <span class="{% if startCapital > totalValue %}text-danger{% else %}text-success{% endif %}">
                         {{ totalValue | localizedcurrency('EUR') }}
-                        ({{ (totalValue - account.startCapital) | localizedcurrency('EUR') }})
+                        ({{ (totalValue - startCapital) | localizedcurrency('EUR') }})
                     </span>
                 </td>
             </tr>

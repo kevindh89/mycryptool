@@ -39,10 +39,3 @@ services:
     App\EventListener\GetGdaxRateRequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
-
-    App\EventListener\AccountSetupListener:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@router.default'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }
