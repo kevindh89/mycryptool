@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Exchange\Gdax;
 
+use App\Entity\Trade;
+use App\Factory\TradeFactory;
 use Psr\Log\LoggerInterface;
 
 class Client
@@ -38,24 +40,23 @@ class Client
         );
     }
 
+    /**
+     * @param string $productId
+     *
+     * @return Trade[]
+     */
     public function getTrades(string $productId): array
     {
         $this->logger->info(sprintf('Executed GET request /fills?product_id=%s in \App\Exchange\Gdax\Client', $productId));
 
-        return $this->requestBuilder->request(
+        $response = $this->requestBuilder->request(
             'GET',
             sprintf('/fills?product_id=%s', $productId)
         );
-    }
 
-    public function getTradesBefore(string $productId, int $tradeId): array
-    {
-        $this->logger->info(sprintf('Executed GET request /fills?product_id=%s&before=%s in \App\Exchange\Gdax\Client', $productId, $tradeId));
-
-        return $this->requestBuilder->request(
-            'GET',
-            sprintf('/fills?product_id=%s&before=%s', $productId, $tradeId)
-        );
+        return array_map(function (array $trade) {
+            return TradeFactory::fromApiResponse($trade);
+        }, $response);
     }
 
     public function getAccounts(): array

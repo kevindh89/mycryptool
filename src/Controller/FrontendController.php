@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Trade;
 use App\Exchange\Gdax\Client;
-use App\Repository\TradeRepository;
 use App\Session\ActiveProductSelector;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
@@ -61,9 +61,39 @@ class FrontendController extends Controller
     /**
      * @Route("/trades", name="trades")
      */
-    public function trades()
+    public function trades(ActiveProductSelector $productSelector, Client $client)
     {
-        return $this->render('frontend/trades.html.twig');
+        $gainsLossesPerDay = [];
+
+        $trades = $client->getTrades($productSelector->getActiveProduct());
+        $groupedTrades = $this->groupTradesPerOrderId($trades);
+
+        foreach ($groupedTrades as $trade) {
+            $tradeDate = $trade->getTradeCreatedAt()->format('d-m-Y');
+            $gainsLossesPerDay[$tradeDate] =
+                isset($gainsLossesPerDay[$tradeDate]) ?
+                    $gainsLossesPerDay[$tradeDate] :
+                    [
+                        'EUR' => 0,
+                        $productSelector->getPrimaryActiveProduct() => 0,
+                    ];
+
+            if ($trade->getSide() === 'buy') {
+                $gainsLossesPerDay[$tradeDate]['EUR'] -= $trade->getPrice() * $trade->getSize();
+                $gainsLossesPerDay[$tradeDate][$productSelector->getPrimaryActiveProduct()] += $trade->getSize();
+            } else {
+                $gainsLossesPerDay[$tradeDate]['EUR'] += $trade->getPrice() * $trade->getSize();
+                $gainsLossesPerDay[$tradeDate][$productSelector->getPrimaryActiveProduct()] -= $trade->getSize();
+            }
+
+            $gainsLossesPerDay[$tradeDate]['EUR'] -= $trade->getFee();
+        }
+
+        return $this->render('frontend/trades.html.twig', [
+            'trades' => $groupedTrades,
+            'gainsLossesPerDay' => $gainsLossesPerDay,
+            'primaryActiveProduct' => $productSelector->getPrimaryActiveProduct(),
+        ]);
     }
 
     /**
@@ -79,38 +109,41 @@ class FrontendController extends Controller
     }
 
     /**
-     * @Route("/trade-list", name="trade-list")
+     * @param array $trades
+     *
+     * @return Trade[]
      */
-    public function tradeList(TradeRepository $repository, ActiveProductSelector $productSelector)
+    public function groupTradesPerOrderId(array $trades)
     {
-        $gainsLossesPerDay = [];
-        $groupedTrades = $repository->getGroupedTrades($productSelector->getActiveProduct());
+        $groupedTrades = [];
 
-        foreach ($groupedTrades as $trade) {
-            $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')] =
-                isset($gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')]) ?
-                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')] :
-                [
-                    'EUR' => 0,
-                    $productSelector->getPrimaryActiveProduct() => 0,
-                ];
+        /** @var Trade $trade */
+        foreach ($trades as $trade) {
+            if (!isset($groupedTrades[$trade->getOrderId()])) {
+                $groupedTrades[$trade->getOrderId()] = $trade;
 
-            if ($trade->getSide() === 'buy') {
-                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')]['EUR'] -= $trade->getAveragePrice() * $trade->getSize();
-                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')][$productSelector->getPrimaryActiveProduct()] += $trade->getSize();
-            } else {
-                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')]['EUR'] += $trade->getAveragePrice() * $trade->getSize();
-                $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')][$productSelector->getPrimaryActiveProduct()] -= $trade->getSize();
+                continue;
             }
 
-            $gainsLossesPerDay[$trade->getTradeCreatedAt()->format('d-m-Y')]['EUR'] -= $trade->getFee();
+            /** @var Trade $groupedTrade */
+            $groupedTrade = $groupedTrades[$trade->getOrderId()];
+
+            $totalSize = $groupedTrade->getSize() + $trade->getSize();
+            $averagePrice = ($groupedTrade->getSize() * $groupedTrade->getPrice() + $trade->getSize() * $trade->getPrice()) / $totalSize;
+            $tradeCreatedAt = ($groupedTrade->getTradeCreatedAt() > $trade->getTradeCreatedAt()) ?
+                $groupedTrade->getTradeCreatedAt() :
+                $trade->getTradeCreatedAt();
+            $totalFee = $groupedTrade->getFee() + $trade->getFee();
+
+            $groupedTrade->setPrice($averagePrice);
+            $groupedTrade->setSize($totalSize);
+            $groupedTrade->setTradeCreatedAt($tradeCreatedAt);
+            $groupedTrade->setFee($totalFee);
+
+            $groupedTrades[$trade->getOrderId()] = $groupedTrade;
         }
 
-        return $this->render('frontend/trade-list.html.twig', [
-            'trades' => $groupedTrades,
-            'gainsLossesPerDay' => $gainsLossesPerDay,
-            'primaryActiveProduct' => $productSelector->getPrimaryActiveProduct(),
-        ]);
+        return array_values($groupedTrades);
     }
 
     private function getRandomMeme(): string

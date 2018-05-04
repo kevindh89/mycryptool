@@ -5,72 +5,20 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TradeRepository")
- */
 class Trade
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     */
     private $tradeId;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
     private $tradeCreatedAt;
-
-    /**
-     * @ORM\Column(type="string", length=20)
-     */
     private $productId;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     private $orderId;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     private $userId;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     private $profileId;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     private $liquidity;
-
-    /**
-     * @ORM\Column(type="decimal", precision=24, scale=8)
-     */
     private $price;
-
-    /**
-     * @ORM\Column(type="decimal", precision=24, scale=8)
-     */
     private $size;
-
-    /**
-     * @ORM\Column(type="decimal", precision=24, scale=16)
-     */
     private $fee;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     private $side;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
     private $settled;
 
     public function __construct(
