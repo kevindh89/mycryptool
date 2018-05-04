@@ -42,18 +42,6 @@ class ApiController
     }
 
     /**
-     * @Route("/orders", name="orders")
-     */
-    public function orders(Client $gdaxRepository, ActiveProductSelector $productSelector): Response
-    {
-        $orders = $gdaxRepository->getOrders($productSelector->getActiveProduct());
-
-        return new Response(
-            '<pre>' . json_encode($orders, JSON_PRETTY_PRINT) . '</pre>'
-        );
-    }
-
-    /**
      * @Route("/collect-trades", name="collect_trades")
      */
     public function collectTrades(GdaxApiSyncService $syncService, ActiveProductSelector $productSelector): Response
@@ -61,15 +49,5 @@ class ApiController
         $syncedTradeCount = $syncService->fetchTrades($productSelector->getActiveProduct());
 
         return new Response(sprintf('Stored %s trades', $syncedTradeCount));
-    }
-
-    /**
-     * @Route("/refresh-orders", name="collect_orders")
-     */
-    public function refreshOrders(GdaxApiSyncService $syncService, ActiveProductSelector $productSelector): Response
-    {
-        $syncedOrdersCount = $syncService->refreshOrders($productSelector->getActiveProduct());
-
-        return new Response(sprintf('Stored %s orders', $syncedOrdersCount));
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Exchange\Gdax\Client;
-use App\Repository\OrderRepository;
 use App\Repository\TradeRepository;
 use App\Session\ActiveProductSelector;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -70,9 +69,13 @@ class FrontendController extends Controller
     /**
      * @Route("/orders", name="orders")
      */
-    public function orders()
+    public function orders(Client $client, ActiveProductSelector $productSelector)
     {
-        return $this->render('frontend/orders.html.twig');
+        $orders = $client->getOrders($productSelector->getActiveProduct());
+
+        return $this->render('frontend/orders.html.twig', [
+            'orders' => $orders,
+        ]);
     }
 
     /**
@@ -107,18 +110,6 @@ class FrontendController extends Controller
             'trades' => $groupedTrades,
             'gainsLossesPerDay' => $gainsLossesPerDay,
             'primaryActiveProduct' => $productSelector->getPrimaryActiveProduct(),
-        ]);
-    }
-
-    /**
-     * @Route("/order-list", name="order-list")
-     */
-    public function orderList(OrderRepository $repository)
-    {
-        $orders = $repository->findBy([], ['orderCreatedAt' => 'DESC']);
-
-        return $this->render('frontend/order-list.html.twig', [
-            'orders' => $orders,
         ]);
     }
 
