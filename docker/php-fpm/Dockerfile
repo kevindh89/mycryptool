@@ -16,6 +16,8 @@ RUN apt-get update && \
         zip \
         unzip && \
     docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include && \
+    docker-php-ext-configure opcache --enable-opcache && \
+    docker-php-ext-install opcache && \
     docker-php-ext-install gd && \
     docker-php-ext-install pdo_mysql && \
     docker-php-ext-install zip && \
