@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ActiveProductSelector
 {
     const AVAILABLE_PRODUCTS = ['BTC-EUR', 'BCH-EUR', 'ETH-EUR', 'LTC-EUR'];
-    const DEFAULT_ACTIVE_PRODUCT = ['BTC-EUR'];
+    const DEFAULT_ACTIVE_PRODUCT = 'BTC-EUR';
     const ACTIVE_PRODUCT_SESSION = 'activeProduct';
 
     private $session;
