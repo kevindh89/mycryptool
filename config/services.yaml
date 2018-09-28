@@ -39,3 +39,7 @@ services:
     App\EventListener\GetGdaxRateRequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
+
+    App\EventListener\StartScreenListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }

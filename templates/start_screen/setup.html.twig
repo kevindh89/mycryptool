@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <form method="POST">
+        <p class="lead mt-3 text-center">
+            Before you can use MyCryptool, please fill in your starting capital:
+        </p>
+        <div class="form-group form-dark p-3 text-center">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-dark text-light">€</span>
+                </div>
+                <input type="text" class="form-control text-light bg-dark" id="start-capital"
+                       name="start-capital"/>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 mt-4">
+                    <button type="submit" class="btn btn-secondary btn-lg">Start using MyCrytool</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
