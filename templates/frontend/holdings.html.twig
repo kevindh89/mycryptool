@@ -1,0 +1,38 @@
+{% set startCapital = app.request.session.get('startCapital', 0) %}
+<table class="table table-bordered table-dark">
+    <tbody>
+    {% set totalValue = 0 %}
+    {% for account in accounts %}
+        <tr>
+            <td class="w-25 p-2">
+                {{ account.balance | number_format(2, '.', '') }} {{ account.currency }}
+            </td>
+            <td class="w-25 p-2 text-secondary">
+                {% if account.currency != 'EUR' %}
+                    {% set rate = rates[account.currency] %}
+                    x {{ rate | localizedcurrency('EUR') }}
+                {% endif %}
+            </td>
+            <td class="w-50 p-2">
+                {% if account.currency != 'EUR' %}
+                    {% set rate = rates[account.currency] %}
+                    {% set holdingValue = (account.balance * rate) %}
+                {% else %}
+                    {% set holdingValue = account.balance %}
+                {% endif %}
+                {{ holdingValue | localizedcurrency('EUR') }}
+                {% set totalValue = totalValue + holdingValue %}
+            </td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="2"></td>
+        <td>
+            <span class="{% if startCapital > totalValue %}text-danger{% else %}text-success{% endif %}">
+                {{ totalValue | localizedcurrency('EUR') }}
+                ({{ (totalValue - startCapital) | localizedcurrency('EUR') }})
+            </span>
+        </td>
+    </tr>
+    </tbody>
+</table>

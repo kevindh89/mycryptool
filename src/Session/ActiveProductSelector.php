@@ -20,7 +20,7 @@ class ActiveProductSelector
 
     public function setActiveProduct(string $product): void
     {
-        if (!in_array($product, self::AVAILABLE_PRODUCTS)) {
+        if (!\in_array($product, self::AVAILABLE_PRODUCTS)) {
             throw new NotFoundHttpException(sprintf(
                 'Product %s is not allowed, should be one of: %s',
                 $product,

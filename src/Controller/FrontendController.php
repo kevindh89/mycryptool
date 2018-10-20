@@ -28,21 +28,9 @@ class FrontendController extends Controller
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(Client $client): Response
+    public function dashboard(): Response
     {
-        $gdaxAccounts = $client->getAccounts();
-
-        $rates = [];
-        foreach ($gdaxAccounts as $gdaxAccount) {
-            $rates[$gdaxAccount['currency']] = $gdaxAccount['currency'] !== 'EUR' ?
-                $client->getRate($gdaxAccount['currency'] . '-EUR') :
-                '';
-        }
-
-        return $this->render('frontend/dashboard.html.twig', [
-            'accounts' => $gdaxAccounts,
-            'rates' => $rates,
-        ]);
+        return $this->render('frontend/dashboard.html.twig');
     }
 
     /**
@@ -56,6 +44,26 @@ class FrontendController extends Controller
         }
 
         return $this->redirect($this->generateUrl('dashboard'));
+    }
+
+    /**
+     * @Route("/holdings", name="holdings")
+     */
+    public function holdings(Client $client)
+    {
+        $gdaxAccounts = $client->getAccounts();
+
+        $rates = [];
+        foreach ($gdaxAccounts as $gdaxAccount) {
+            $rates[$gdaxAccount['currency']] = $gdaxAccount['currency'] !== 'EUR' ?
+                $client->getRate($gdaxAccount['currency'] . '-EUR') :
+                '';
+        }
+
+        return $this->render('frontend/holdings.html.twig', [
+            'accounts' => $gdaxAccounts,
+            'rates' => $rates,
+        ]);
     }
 
     /**

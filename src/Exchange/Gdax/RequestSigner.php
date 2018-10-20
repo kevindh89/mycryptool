@@ -8,7 +8,7 @@ class RequestSigner
 {
     public function sign(string $secret, string $method, string $requestPath, int $timestamp, string $body = ''): string
     {
-        $body = is_array($body) ? json_encode($body) : $body;
+        $body = \is_array($body) ? json_encode($body) : $body;
         $timestamp = $timestamp ? $timestamp : time();
 
         $what = $timestamp . $method . $requestPath . $body;

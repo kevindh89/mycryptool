@@ -9,8 +9,11 @@ framework:
     session:
         handler_id: ~
 
-    #esi: ~
-    #fragments: ~
+    esi:
+        enabled: true
+    fragments:
+        enabled: true
+
     php_errors:
         log: true
 

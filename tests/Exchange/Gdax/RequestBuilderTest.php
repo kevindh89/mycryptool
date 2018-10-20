@@ -24,7 +24,6 @@ class RequestBuilderTest extends TestCase
     const PASSPHRASE = 'passphrase';
     public static $now;
 
-    private $client;
     private $requestBuilder;
     private $requestSigner;
 
@@ -33,9 +32,6 @@ class RequestBuilderTest extends TestCase
         parent::setUp();
 
         self::$now = strtotime('12:00');
-        $this->client = $this->getMockBuilder(\GuzzleHttp\Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->requestSigner = $this->getMockBuilder(RequestSigner::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -44,7 +40,6 @@ class RequestBuilderTest extends TestCase
             self::KEY,
             self::SECRET,
             self::PASSPHRASE,
-            $this->client,
             $this->requestSigner
         );
     }
@@ -57,26 +52,16 @@ class RequestBuilderTest extends TestCase
     /**
      * @test
      */
-    public function it_uses_client_and_signs_a_request()
+    public function it_builds_request_headers()
     {
-        $this->client->expects($this->once())
-            ->method('request')
-            ->with(
-                'GET',
-                RequestBuilder::API_BASE_URI . '/orders',
-                [
-                    'headers' => $this->getDefaultHeaders(),
-                ]
-            )
-            ->willReturn($this->validJsonResponse());
         $this->requestSigner->expects($this->once())
             ->method('sign')
             ->with(self::SECRET, 'GET', '/orders', self::$now, '')
             ->willReturn('signature');
 
         $this->assertSame(
-            ['test' => 1],
-            $this->requestBuilder->request('GET', '/orders', [], '')
+            ['headers' => $this->getDefaultHeaders()],
+            $this->requestBuilder->build('GET', '/orders', [], '')
         );
     }
 
