@@ -20,6 +20,7 @@
   "devDependencies": {
     "@symfony/webpack-encore": "^0.20.1",
     "lodash": ">=4.17.5",
-    "babel-preset-react": "^6.24.1"
+    "babel-preset-react": "^6.24.1",
+    "macaddress": ">=0.2.9"
   }
 }
